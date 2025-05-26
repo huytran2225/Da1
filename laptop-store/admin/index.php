@@ -6,10 +6,10 @@ require_once "../common/function.php";   // Chứa các hàm dùng chung
 
 // require các controller mà route trỏ tới
 require_once "./controllers/AdminDanhMucController.php";
-
+require_once "./controllers/AdminSanPhamController.php";
 // require Các model mà controller muốn sử dụng
 require_once "./models/AdminDanhMuc.php";
-
+require_once "./models/AdminSanPham.php";
 
 // Route (Điều hướng)
 $act = $_GET['act'] ?? '/';
@@ -24,4 +24,15 @@ match ($act) {
   'form-sua-danh-muc' =>(new AdminDanhMucController())->formEditDanhMuc(),
   'sua-danh-muc' =>(new AdminDanhMucController())->postEditDanhMuc(),
   'xoa-danh-muc' =>(new AdminDanhMucController())->deleteDanhMuc(),
+//san pham
+      'san-pham' =>(new AdminSanPhamController())->danhSachSanPham(),
+     'form-them-san-pham' =>(new AdminSanPhamController())->formAddSanPham(),
+     'them-san-pham' =>(new AdminSanPhamController())->postAddSanPham(),
+     'form-sua-san-pham' =>(new AdminSanPhamController())->formEditSanPham(),
+     'sua-san-pham' =>(new AdminSanPhamController())->postEditSanPham(),
+     'xoa-san-pham' =>(new AdminSanPhamController())->deleteSanPham(),
+'chi-tiet-san-pham' => (new AdminSanPhamController())->chiTietSanPham(),
+'xoa-anh'=>(new AdminSanPhamController())->deleteImage(),
+'them-anh-phu'=>(new AdminSanPhamController())->addGalleryImages(),
+
 };
