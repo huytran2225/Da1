@@ -30,7 +30,7 @@
 
           <div class="card">
             <div class="card-header">
-            <a href="<?='http://localhost/Da1_N2N2/laptop-store/admin/?act=form-them-danh-muc' ?>">
+            <a href="<?='http://localhost/Da1_N2/laptop-store/admin/?act=form-them-danh-muc' ?>">
               <button class="btn btn-success">Thêm danh mục</button>
             </a>
             </div>

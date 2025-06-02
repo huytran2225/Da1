@@ -7,18 +7,20 @@ class AdminTaiKhoanController {
     public function __construct() {
         $this->modelTaiKhoan= new AdminTaiKhoan();
     }
+
     
     /**
      * Hiển thị danh sách tài khoản quản trị
      */
-    public function danhSachTaiKhoan() {
+   
+
+     public function danhSachTaiKhoan() {
+
         // Kiểm tra quyền admin ở đây nếu cần
         $accounts = $this->modelTaiKhoan->getAllAdmins();
         include 'views/admin/danh_sach.php';
     }
-    
- 
-    
+
     /**
      * Xem chi tiết tài khoản
      */
