@@ -20,7 +20,6 @@ class AdminTaiKhoanController {
         $accounts = $this->modelTaiKhoan->getAllAdmins();
         include 'views/admin/danh_sach.php';
     }
-
     /**
      * Xem chi tiết tài khoản
      */
