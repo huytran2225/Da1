@@ -9,24 +9,24 @@ require_once "./controllers/AdminDanhMucController.php";
 require_once "./controllers/AdminSanPhamController.php";
 require_once "./controllers/AdminDonHangController.php";
 require_once "./controllers/AdminTaiKhoanController.php";
+require_once "./controllers/LoginAdminController.php";
+require_once "./controllers/AdminBaoCaoThongKeController.php";
+
 // require Các model mà controller muốn sử dụng
 require_once "./models/AdminDanhMuc.php";
 require_once "./models/AdminSanPham.php";
 require_once "./models/AdminTaiKhoan.php";
-require_once "./controllers/AdminDonHangController.php";
-require_once "./controllers/AdminTaiKhoanController.php";
-// require Các model mà controller muốn sử dụng
-require_once "./models/AdminDanhMuc.php";
-require_once "./models/AdminSanPham.php";
 require_once "./models/AdminDonHang.php";
-require_once "./models/AdminTaikhoan.php";
+require_once "./models/AdminDangNhap.php";
+require_once "./models/AdminThongKe.php";
+
 
 // Route (Điều hướng)
 $act = $_GET['act'] ?? '/';
 
 match ($act) {
   //route báo cáo - trang chủ
-  
+  '/'=>(new AdminBaoCaoThongKeController())->trangChu(),
   // router danh mục
   'danh-muc' =>(new AdminDanhMucController())->danhSachDanhMuc(),
   'form-them-danh-muc' =>(new AdminDanhMucController())->formAddDanhMuc(),
@@ -53,4 +53,8 @@ match ($act) {
 //
 'tai-khoan-quan-tri' =>(new AdminTaiKhoanController())->danhSachTaiKhoan(),
 'chi-tiet-tai-khoan'=>(new AdminTaiKhoanController())->chiTietTaiKhoan(),
+
+
+'dang-nhap' => (new LoginAdminController())->dangNhap(),
+'dang-xuat' => (new LoginAdminController())->dangXuat(),
 };
