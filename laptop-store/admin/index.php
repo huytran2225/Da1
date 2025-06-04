@@ -11,6 +11,7 @@ require_once "./controllers/AdminDonHangController.php";
 require_once "./controllers/AdminTaiKhoanController.php";
 require_once "./controllers/LoginAdminController.php";
 require_once "./controllers/AdminBaoCaoThongKeController.php";
+require_once "./controllers/CaNhanController.php";
 
 // require Các model mà controller muốn sử dụng
 require_once "./models/AdminDanhMuc.php";
@@ -19,6 +20,7 @@ require_once "./models/AdminTaiKhoan.php";
 require_once "./models/AdminDonHang.php";
 require_once "./models/AdminDangNhap.php";
 require_once "./models/AdminThongKe.php";
+require_once "./models/CaNhan.php";
 
 
 // Route (Điều hướng)
@@ -49,6 +51,10 @@ match ($act) {
 'don-hang' => (new AdminDonHangController())->danhSachDonHang(),
 'chi-tiet-don-hang' => (new AdminDonHangController())->chiTietDonHang(),
 'cap-nhat-trang-thai' => (new AdminDonHangController())->capNhatTrangThai(),
+
+//ca nhan
+'tai-khoan-ca-nhan' => (new CaNhanController())->index(),
+'cap-nhat-thong-tin' => (new CaNhanController())->update(),
 
 //
 'tai-khoan-quan-tri' =>(new AdminTaiKhoanController())->danhSachTaiKhoan(),
