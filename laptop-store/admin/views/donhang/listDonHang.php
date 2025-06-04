@@ -2,17 +2,17 @@
 <?php
 require './views/layout/header.php'
 
-  ?>
+?>
 <!-- end header -->
 <!-- sidebar -->
 <?php
 require './views/layout/sidebar.php'
 
-  ?>
-  
+?>
+
 <?php
 include './views/layout/navbar.php'
-  ?>
+?>
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
@@ -25,8 +25,8 @@ include './views/layout/navbar.php'
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-<h2>Quản lý đơn hàng</h2>
-</div>
+          <h2>Quản lý đơn hàng</h2>
+        </div>
       </div>
     </div><!-- /.container-fluid -->
   </section>
@@ -37,7 +37,7 @@ include './views/layout/navbar.php'
       <div class="row">
         <div class="col-12">
           <div class="card">
-       
+
             <!-- /.card-header -->
 
             <!-- /.card-body -->
@@ -45,46 +45,46 @@ include './views/layout/navbar.php'
           <!-- /.card -->
 
           <div class="card">
-            
+
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
 
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Khách hàng</th>
-            <th>Ngày đặt</th>
-            <th>Trạng thái</th>
-            <th>Tổng tiền</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($orders as $order): 
-            $statusText = [
-              'pending' => '<span class="badge badge-warning">Chờ xử lý</span>',
-              'processing' => '<span class="badge badge-info">Đang xử lý</span>',
-              'completed' => '<span class="badge badge-success">Hoàn thành</span>',
-              'cancelled' => '<span class="badge badge-danger">Đã hủy</span>'
-            ];
-        ?>
-        <tr>
-            <td><?= htmlspecialchars($order['id']) ?></td>
-            <td><?= htmlspecialchars($order['customer_name']) ?></td>
-            <td><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
-            <td><?= $statusText[$order['status']] ?? $order['status'] ?></td>
-            <td><?= number_format($order['total_price'], 0, ',', '.') ?> đ</td>
-            <td>
-                <a href="index.php?act=chi-tiet-don-hang&id=<?= $order['id'] ?>" class="btn btn-sm btn-info">Xem</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-</div>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Khách hàng</th>
+                      <th>Ngày đặt</th>
+                      <th>Trạng thái</th>
+                      <th>Tổng tiền</th>
+                      <th>Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($orders as $order):
+                      $statusText = [
+                        'pending' => '<span class="badge badge-warning">Chờ xử lý</span>',
+                        'processing' => '<span class="badge badge-info">Đang xử lý</span>',
+                        'completed' => '<span class="badge badge-success">Hoàn thành</span>',
+                        'cancelled' => '<span class="badge badge-danger">Đã hủy</span>'
+                      ];
+                    ?>
+                      <tr>
+                        <td><?= htmlspecialchars($order['id']) ?></td>
+                        <td><?= htmlspecialchars($order['customer_name']) ?></td>
+                        <td><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
+                        <td><?= $statusText[$order['status']] ?? $order['status'] ?></td>
+                        <td><?= number_format($order['total_price'], 0, ',', '.') ?> đ</td>
+                        <td>
+                          <a href="index.php?act=chi-tiet-don-hang&id=<?= $order['id'] ?>" class="btn btn-sm btn-info">Xem</a>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+            </div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
@@ -101,13 +101,15 @@ include './views/layout/navbar.php'
 <!-- footer -->
 <?php
 include './views/layout/footer.php'
-  ?>
+?>
 <!-- end footer -->
 
 <script>
-  $(function () {
+  $(function() {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
