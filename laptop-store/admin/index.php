@@ -9,6 +9,7 @@ require_once "./controllers/AdminDanhMucController.php";
 require_once "./controllers/AdminSanPhamController.php";
 require_once "./controllers/AdminDonHangController.php";
 require_once "./controllers/AdminTaiKhoanController.php";
+require_once "./controllers/KhachHangController.php";
 require_once "./controllers/LoginAdminController.php";
 require_once "./controllers/AdminBaoCaoThongKeController.php";
 require_once "./controllers/CaNhanController.php";
@@ -17,6 +18,7 @@ require_once "./controllers/CaNhanController.php";
 require_once "./models/AdminDanhMuc.php";
 require_once "./models/AdminSanPham.php";
 require_once "./models/AdminTaiKhoan.php";
+require_once "./models/KhachHang.php";
 require_once "./models/AdminDonHang.php";
 require_once "./models/AdminDangNhap.php";
 require_once "./models/AdminThongKe.php";
@@ -56,9 +58,13 @@ match ($act) {
 'tai-khoan-ca-nhan' => (new CaNhanController())->index(),
 'cap-nhat-thong-tin' => (new CaNhanController())->update(),
 
-//
+//quan tri
 'tai-khoan-quan-tri' =>(new AdminTaiKhoanController())->danhSachTaiKhoan(),
 'chi-tiet-tai-khoan'=>(new AdminTaiKhoanController())->chiTietTaiKhoan(),
+
+//khách hàng
+'tai-khoan-khach-hang' =>(new KhachHangController())->danhSachTaiKhoan(),
+'chi-tiet-khach-hang'=>(new KhachHangController())->chiTietTaiKhoan(),
 
 
 'dang-nhap' => (new LoginAdminController())->dangNhap(),
