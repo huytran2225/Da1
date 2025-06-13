@@ -50,27 +50,82 @@ class AdminDonHang {
     }
 
     public function getStatusHistory($order_id) {
-        $sql = "SELECT * FROM order_status_history WHERE order_id = ? ORDER BY created_at DESC";
+        $sql = "SELECT h.*, u.name as updated_by_name 
+                FROM order_status_history h
+                LEFT JOIN users u ON h.created_by = u.id
+                WHERE h.order_id = ? 
+                ORDER BY h.created_at DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$order_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateOrderStatus($id, $status) {
+    public function getAllStatusList() {
+        return [
+            'pending' => 'Chờ xử lý',
+            'processing' => 'Đang xử lý',
+            'shipping' => 'Đang giao hàng',
+            'completed' => 'Hoàn thành',
+            'cancelled' => 'Đã hủy',
+        ];
+    }
+
+    public function getAvailableStatuses($current_status) {
+        $status_order = ['pending', 'processing', 'shipping', 'completed'];
+        $all_statuses = $this->getAllStatusList();
+        $result = [];
+        $current_index = array_search($current_status, $status_order);
+        if ($current_index === false) return [];
+        // Cho phép chuyển tới các trạng thái sau trạng thái hiện tại
+        for ($i = $current_index + 1; $i < count($status_order); $i++) {
+            $key = $status_order[$i];
+            $result[$key] = $all_statuses[$key];
+        }
+        // Nếu chưa phải completed/cancelled thì luôn cho phép hủy
+        if ($current_status !== 'completed' && $current_status !== 'cancelled') {
+            $result['cancelled'] = $all_statuses['cancelled'];
+        }
+        return $result;
+    }
+
+    public function updateOrderStatus($id, $status, $note = '', $user_id = null) {
         $this->conn->beginTransaction();
-        
         try {
+            // Kiểm tra trạng thái hiện tại
+            $current_order = $this->getOrderById($id);
+            if (!$current_order) {
+                throw new Exception("Đơn hàng không tồn tại");
+            }
+            $available_statuses = $this->getAvailableStatuses($current_order['status']);
+            // Chỉ kiểm tra trạng thái mới có nằm trong danh sách trạng thái hợp lệ
+            if (!array_key_exists($status, $available_statuses)) {
+                throw new Exception("Không thể chuyển sang trạng thái này");
+            }
             // Cập nhật trạng thái
             $sql = "UPDATE orders SET status = ? WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$status, $id]);
-            
+            // Lưu lịch sử
+            $sql = "INSERT INTO order_status_history (order_id, status, note, created_by) VALUES (?, ?, ?, ?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id, $status, $note, $user_id]);
             $this->conn->commit();
             return true;
         } catch (Exception $e) {
             $this->conn->rollBack();
-            return false;
+            throw $e;
         }
+    }
+
+    public function getStatusBadgeClass($status) {
+        $classes = [
+            'pending' => 'badge-warning',
+            'processing' => 'badge-info',
+            'shipping' => 'badge-primary',
+            'completed' => 'badge-success',
+            'cancelled' => 'badge-danger'
+        ];
+        return $classes[$status] ?? 'badge-secondary';
     }
 }
 ?>

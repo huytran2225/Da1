@@ -34,6 +34,8 @@ class AdminDonHangController {
 
             $order = $this->model->getOrderById($order_id);
             $order_details = $this->model->getOrderDetails($order_id);
+            $status_history = $this->model->getStatusHistory($order_id);
+            $available_statuses = $this->model->getAvailableStatuses($order['status']);
 
             if (!$order) {
                 throw new Exception("Đơn hàng không tồn tại");
@@ -56,18 +58,15 @@ class AdminDonHangController {
 
             $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
             $status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_STRING);
+            $note = filter_input(INPUT_POST, 'note', FILTER_SANITIZE_STRING);
+            $user_id = $_SESSION['user']['id'] ?? null;
 
             if (!$order_id || !$status) {
                 throw new Exception("Dữ liệu không hợp lệ");
             }
 
-            $result = $this->model->updateOrderStatus($order_id, $status);
-
-            if ($result) {
-                $_SESSION['success'] = 'Cập nhật trạng thái thành công';
-            } else {
-                throw new Exception("Cập nhật trạng thái thất bại");
-            }
+            $this->model->updateOrderStatus($order_id, $status, $note, $user_id);
+            $_SESSION['success'] = 'Cập nhật trạng thái thành công';
 
             header("Location: index.php?act=chi-tiet-don-hang&id=" . $order_id);
             exit;
