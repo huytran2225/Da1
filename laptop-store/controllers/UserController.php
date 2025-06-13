@@ -1,8 +1,7 @@
 <?php
-//Controllers/UserController.php
-require_once 'models/user.php'
-
-class UserController {
+require_once './models/user.php';
+class UserController
+{
     private $user_model;
 
     public function __construct()
@@ -49,6 +48,7 @@ class UserController {
         header("Location: index.php");
         exit;
     }
+
 
     public function register()
     {
