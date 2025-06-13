@@ -11,6 +11,10 @@ class KhachHangController {
     }
 
     public function danhSachTaiKhoan() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header("Location: ".BASE_URL_ADMIN.'?act=dang-nhap');
+            exit();
+        }
         
         $accounts = $this->modelTaiKhoanCustomer->getAllCustomer();
         include 'views/khachhang/danh_sach.php';
@@ -21,6 +25,11 @@ class KhachHangController {
      * Xem chi tiết tài khoản
      */
     public function chiTietTaiKhoan() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header("Location: ".BASE_URL_ADMIN.'?act=dang-nhap');
+            exit();
+        }
+
         $id = $_GET['id'] ?? null;
         
         if (!$id) {

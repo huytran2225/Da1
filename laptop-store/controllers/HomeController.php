@@ -19,6 +19,6 @@ class HomeController {
         $product = $this->home_model->getProductById($id);
         $images = $this->home_model->getProductImages($id);
 
-        require_once('views/product_detail.php');
+        require_once('views/product-detail.php');
     }
 }
