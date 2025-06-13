@@ -112,27 +112,39 @@
                     <?php endif; ?>
 
                     <!-- Form cập nhật trạng thái thanh toán -->
-                    <div class="card mt-3">
-                        <div class="card-header bg-info">
-                            <h3 class="card-title">Cập nhật trạng thái thanh toán</h3>
+                    <?php $available_payment_statuses = $this->model->getAvailablePaymentStatuses($order['payment_status']); ?>
+                    <?php if (!empty($available_payment_statuses)): ?>
+                        <div class="card mt-3">
+                            <div class="card-header bg-info">
+                                <h3 class="card-title">Cập nhật trạng thái thanh toán</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="<?= BASE_URL ?>admin/?act=cap-nhat-trang-thai-thanh-toan" method="POST">
+                                    <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                    <div class="form-group">
+                                        <label>Trạng thái thanh toán mới</label>
+                                        <select name="payment_status" class="form-control">
+                                            <?php foreach ($available_payment_statuses as $key => $label): ?>
+                                                <option value="<?= $key ?>">
+                                                    <?= $label ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-info">Cập nhật</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <form action="<?= BASE_URL ?>admin/?act=cap-nhat-trang-thai-thanh-toan" method="POST">
-                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
-                                <div class="form-group">
-                                    <label>Trạng thái thanh toán mới</label>
-                                    <select name="payment_status" class="form-control">
-                                        <?php foreach ($this->model->getAllPaymentStatusList() as $key => $label): ?>
-                                            <option value="<?= $key ?>" <?= $order['payment_status'] == $key ? 'selected' : '' ?>>
-                                                <?= $label ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-info">Cập nhật</button>
-                            </form>
+                    <?php else: ?>
+                        <div class="card mt-3">
+                            <div class="card-header bg-info">
+                                <h3 class="card-title">Cập nhật trạng thái thanh toán</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-secondary mb-0">Đã ở trạng thái thanh toán cuối cùng.</div>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="col-md-6">

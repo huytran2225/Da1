@@ -145,10 +145,23 @@ class AdminDonHang {
 
     public function getAllPaymentStatusList() {
         return [
-            'unpaid' => 'Chưa thanh toán',
-            'paid' => 'Đã thanh toán',
-            'pending' => 'Chờ xác nhận',
+            'chưa thanh toán' => 'Chưa thanh toán',
+            'chờ xác nhận' => 'Chờ xác nhận',
+            'đã thanh toán' => 'Đã thanh toán',
         ];
+    }
+
+    public function getAvailablePaymentStatuses($current_payment_status) {
+        $payment_status_order = ['chưa thanh toán', 'chờ xác nhận', 'đã thanh toán'];
+        $all_statuses = $this->getAllPaymentStatusList();
+        $result = [];
+        $current_index = array_search($current_payment_status, $payment_status_order);
+        if ($current_index === false) return [];
+        for ($i = $current_index + 1; $i < count($payment_status_order); $i++) {
+            $key = $payment_status_order[$i];
+            $result[$key] = $all_statuses[$key];
+        }
+        return $result;
     }
 
     public function updatePaymentStatus($id, $payment_status) {
