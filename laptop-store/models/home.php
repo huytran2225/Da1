@@ -1,6 +1,6 @@
 <?php
 require_once("connection.php");
-class home {
+class Home {
     var $conn;
 
     function __construct() {

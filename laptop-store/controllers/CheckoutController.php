@@ -40,14 +40,16 @@ class CheckoutController {
 
         //5.thêm order_details và giảm stock
         foreach ($cart as $pid => $qty) {
-            $p = $this->homeModel->getProductById($pid);
+            
             $product_image = $this->orderModel->getProductImage($pid);
+            $p = $this->homeModel->getProductById($pid);
             $this->orderModel->addOrderDetail(
                 $order_id,
                 $pid,
                 $product_image, 
                 $qty,
-                $p['price']
+                $p['price'],
+
             );
             // Tuỳ chọn: giảm stock
             $this->orderModel->reduceStock($pid, $qty);
