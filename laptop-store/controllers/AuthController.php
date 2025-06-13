@@ -26,7 +26,7 @@ class AuthController {
             exit();
         } else {
             $_SESSION['error'] = "Email hoặc mật khẩu không chính xác";
-            header("Location: index.php?controller=auth&action login");
+            header("Location: index.php?controller=auth&action=login");
             exit();
         }
     }
@@ -44,25 +44,26 @@ class AuthController {
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-        $confirmPassword = $_POST['condrm_password'] ?? '';
-        $phone = $_POST-['phone'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+        $phone = $_POST['phone'] ?? '';
         $address = $_POST['address'] ?? '';
 
         //validate input
         $errors = [];
         if (empty($name)) $errors[] = "Vui lòng nhập họ tên";
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] "Email không hợp lệ";
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Email không hợp lệ";
         if (strlen($password) < 6) $errors[] = "Mật khẩu phải có ít nhất 6 kí tự";
         if ($password !== $confirmPassword) $errors[] = "Mật khẩu xác nhận không khớp";
         if (empty($phone)) $errors[] = "Vui lòng nhập số điện thoại";
 
-        $customerModel = new Customer();;
+        $customerModel = new Customer();
         if ($customerModel->emailExists($email)) {
             $errors[] = "Email đã được sử dụng";
         }
 
-        if ($customerModel->creater($name, $email, $password, $phone, $address)) {
+        if ($customerModel->create($name, $email, $password, $phone, $address)) {
             $_SESSION['success'] = "Đăng ký thành công! Vui lòng đăng nhập";
+            header("Location: index.php?controller=auth&action=login");
             exit();
         } else {
             $_SESSION['error'] = "Đăng ký không thành công. Vui lòng thử lại";
