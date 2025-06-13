@@ -1,5 +1,5 @@
 <?php
-require_once("models/Oder.php");
+require_once("models/order.php");
 require_once("models/home.php"); //để getProductById
 
 class CheckoutController {
@@ -16,7 +16,7 @@ class CheckoutController {
         //1.kiểm tra đăng nhập
         if (!isset($_SESSION['user_id'])) {
             //chưa login -> chuyển đến trang login
-            header("Location: indx.php?act=login&redirect=checkout");
+            header("Location: index.php?act=login&redirect=checkout");
             exit;
         }
 
@@ -40,16 +40,14 @@ class CheckoutController {
 
         //5.thêm order_details và giảm stock
         foreach ($cart as $pid => $qty) {
-            
-            $product_image = $this->orderModel->getProductImage($product_id);
             $p = $this->homeModel->getProductById($pid);
+            $product_image = $this->orderModel->getProductImage($pid);
             $this->orderModel->addOrderDetail(
                 $order_id,
                 $pid,
                 $product_image, 
                 $qty,
-                $p['price'],
-
+                $p['price']
             );
             // Tuỳ chọn: giảm stock
             $this->orderModel->reduceStock($pid, $qty);

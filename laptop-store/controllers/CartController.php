@@ -7,7 +7,7 @@ class CartController
 
     public function __construct()
     {
-        $this->home_model = new Home():
+        $this->home_model = new Home();
     }
     public function add()
     {

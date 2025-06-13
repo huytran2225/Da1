@@ -7,7 +7,7 @@ class AdminAuthController {
     }
 
     public function handleLogin() {
-        if ($_SEVER['REQUEST_METHOD'] !== 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: admin.php?controller=auth&action=login");
             exit();
         }
