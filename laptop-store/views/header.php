@@ -1,3 +1,17 @@
+<?php if (!empty($_SESSION['success'])): ?>
+    <div id="toast-success" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 200px;">
+        <div class="alert alert-success p-2 m-0" style="box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+            <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            var toast = document.getElementById('toast-success');
+            if (toast) toast.style.display = 'none';
+        }, 2000);
+    </script>
+<?php endif; ?>
+
   <!-- Start Top Nav -->
   <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
       <div class="container text-light">

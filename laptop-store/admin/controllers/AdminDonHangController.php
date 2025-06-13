@@ -76,6 +76,32 @@ class AdminDonHangController {
     }
 
     /**
+     * Cập nhật trạng thái thanh toán
+     */
+    public function capNhatTrangThaiThanhToan() {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                throw new Exception("Phương thức không hợp lệ");
+            }
+
+            $order_id = filter_input(INPUT_POST, 'order_id', FILTER_VALIDATE_INT);
+            $payment_status = filter_input(INPUT_POST, 'payment_status', FILTER_SANITIZE_STRING);
+
+            if (!$order_id || !$payment_status) {
+                throw new Exception("Dữ liệu không hợp lệ");
+            }
+
+            $this->model->updatePaymentStatus($order_id, $payment_status);
+            $_SESSION['success'] = 'Cập nhật trạng thái thanh toán thành công';
+
+            header("Location: index.php?act=chi-tiet-don-hang&id=" . $order_id);
+            exit;
+        } catch (Exception $e) {
+            $this->handleError($e->getMessage(), 'index.php?act=don-hang');
+        }
+    }
+
+    /**
      * Xử lý lỗi và chuyển hướng
      */
     private function handleError($message, $redirectUrl = null) {

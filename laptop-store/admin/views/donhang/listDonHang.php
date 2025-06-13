@@ -58,6 +58,7 @@ include './views/layout/navbar.php'
                       <th>Khách hàng</th>
                       <th>Ngày đặt</th>
                       <th>Trạng thái</th>
+                      <th>Trạng thái thanh toán</th>
                       <th>Tổng tiền</th>
                       <th>Hành động</th>
                     </tr>
@@ -70,12 +71,18 @@ include './views/layout/navbar.php'
                         'completed' => '<span class="badge badge-success">Hoàn thành</span>',
                         'cancelled' => '<span class="badge badge-danger">Đã hủy</span>'
                       ];
+                      $paymentStatusText = [
+                        'unpaid' => '<span class="badge badge-warning">Chưa thanh toán</span>',
+                        'paid' => '<span class="badge badge-success">Đã thanh toán</span>',
+                        'pending' => '<span class="badge badge-info">Chờ xác nhận</span>'
+                      ];
                     ?>
                       <tr>
                         <td><?= htmlspecialchars($order['id']) ?></td>
                         <td><?= htmlspecialchars($order['customer_name']) ?></td>
                         <td><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
                         <td><?= $statusText[$order['status']] ?? $order['status'] ?></td>
+                        <td><?= $paymentStatusText[$order['payment_status']] ?? htmlspecialchars($order['payment_status']) ?></td>
                         <td><?= number_format($order['total_price'], 0, ',', '.') ?> đ</td>
                         <td>
                           <a href="index.php?act=chi-tiet-don-hang&id=<?= $order['id'] ?>" class="btn btn-sm btn-info">Xem</a>

@@ -12,8 +12,8 @@ class OrderModel {
     public function createOrder($user_id, $total_price)
     {
         $stmt = $this->conn->prepare(
-            "INSERT INTO orders (user_id, total_price, status, created_at) 
-             VALUES (?, ?, 'pending', NOW())"
+            "INSERT INTO orders (user_id, total_price, status, payment_status, created_at) 
+             VALUES (?, ?, 'pending', 'chưa thanh toán', NOW())"
         );
         $stmt->bind_param("id", $user_id, $total_price);
         $stmt->execute();

@@ -65,6 +65,19 @@
                                         </span>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Trạng thái thanh toán</th>
+                                    <td>
+                                        <?php
+                                        $paymentStatusText = [
+                                            'unpaid' => '<span class="badge badge-warning">Chưa thanh toán</span>',
+                                            'paid' => '<span class="badge badge-success">Đã thanh toán</span>',
+                                            'pending' => '<span class="badge badge-info">Chờ xác nhận</span>'
+                                        ];
+                                        echo $paymentStatusText[$order['payment_status']] ?? htmlspecialchars($order['payment_status']);
+                                        ?>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -97,6 +110,29 @@
                         </div>
                     </div>
                     <?php endif; ?>
+
+                    <!-- Form cập nhật trạng thái thanh toán -->
+                    <div class="card mt-3">
+                        <div class="card-header bg-info">
+                            <h3 class="card-title">Cập nhật trạng thái thanh toán</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="<?= BASE_URL ?>admin/?act=cap-nhat-trang-thai-thanh-toan" method="POST">
+                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                <div class="form-group">
+                                    <label>Trạng thái thanh toán mới</label>
+                                    <select name="payment_status" class="form-control">
+                                        <?php foreach ($this->model->getAllPaymentStatusList() as $key => $label): ?>
+                                            <option value="<?= $key ?>" <?= $order['payment_status'] == $key ? 'selected' : '' ?>>
+                                                <?= $label ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-info">Cập nhật</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-6">

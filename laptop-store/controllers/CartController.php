@@ -35,12 +35,13 @@ class CartController
             $_SESSION['cart'] = [];
         }
 
-        if(!isset($_SESSION['cart'][$product_id])) {
+        if(isset($_SESSION['cart'][$product_id])) {
             $_SESSION['cart'][$product_id] += $qty;
         } else {
             $_SESSION['cart'][$product_id] = $qty;
         }
 
+        $_SESSION['success'] = "Đã thêm vào giỏ hàng";
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }

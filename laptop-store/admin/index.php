@@ -53,9 +53,11 @@ match ($act) {
 'don-hang' => (new AdminDonHangController())->danhSachDonHang(),
 'chi-tiet-don-hang' => (new AdminDonHangController())->chiTietDonHang(),
 'cap-nhat-trang-thai' => (new AdminDonHangController())->capNhatTrangThai(),
+'cap-nhat-trang-thai-thanh-toan' => (new AdminDonHangController())->capNhatTrangThaiThanhToan(),
 
 //ca nhan
 'tai-khoan-ca-nhan' => (new CaNhanController())->index(),
+'ca-nhan' => (new CaNhanController())->index(),
 'cap-nhat-thong-tin' => (new CaNhanController())->update(),
 
 //quan tri
