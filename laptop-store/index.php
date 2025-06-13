@@ -3,13 +3,13 @@ session_start();
 $mod = isset($_GET['act']) ? $_GET['act'] : "home";
 switch ($mod) {
     case 'home':
-        require_once('controllers/HomeController.php');
+        require_once('Controllers/HomeController.php');
         $controller = new HomeController();
         $controller->list();
         break;
 
     case 'detail':
-        require_once('controllers/HomeController.php');
+        require_once('Controllers/HomeController.php');
         $controller = new HomeController();
         $controller->detail();
         break;
@@ -25,25 +25,25 @@ switch ($mod) {
         }
         break;
     case 'checkout':
-        require_once('controllers/CheckoutController.php');
+        require_once('Controllers/CheckoutController.php');
         $ctrl = new CheckoutController();
         $ctrl->process();
         break;
     case 'order_success':
-        require_once('controllers/CheckoutController.php');
+        require_once('Controllers/CheckoutController.php');
         $ctrl = new CheckoutController();
         $ctrl->success();
         break;
 
 
     case 'login':
-        require_once('controllers/UserController.php');
+        require_once('Controllers/UserController.php');
         $c = new UserController();
         $c->login();
         break;
 
     case 'logout':
-        require_once('controllers/UserController.php');
+        require_once('Controllers/UserController.php');
         $c = new UserController();
         $c->logout();
         break;
@@ -55,7 +55,7 @@ switch ($mod) {
         break;
 
     case 'register':
-        require_once('controllers/UserController.php');
+        require_once('Controllers/UserController.php');
         $c = new UserController();
         $c->register();
         break;
@@ -75,12 +75,12 @@ switch ($mod) {
                 break;
 
                 case 'update_cart':
-                    require_once('controllers/CartController.php');
+                    require_once('Controllers/CartController.php');
                     $cartController = new CartController();
                     $cartController->update_cart();
                     break;
                     case 'remove_cart_item':
-                        require_once('controllers/CartController.php');
+                        require_once('Controllers/CartController.php');
                         $cartController = new CartController();
                         $cartController->remove();
                         break;

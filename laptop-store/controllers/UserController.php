@@ -1,13 +1,12 @@
 <?php
-//Controllers/UserController.php
-require_once 'models/Customer.php';
-
-class UserController {
+require_once './models/user.php';
+class UserController
+{
     private $user_model;
 
     public function __construct()
     {
-        $this->user_model = new Customer();
+        $this->user_model = new User();
     }
 
     /**
@@ -22,8 +21,8 @@ class UserController {
             // Nếu có redirect (ví dụ checkout)
             $redirect = isset($_POST['redirect']) ? $_POST['redirect'] : 'home';
 
-            $user = $this->user_model->getByEmail($email);
-            if ($user && password_verify($password, $user['password'])) {
+            $user = $this->user_model->login($email, $password);
+            if ($user) {
                 // Lưu session
                 $_SESSION['user']    = $user;
                 $_SESSION['user_id'] = $user['id'];
@@ -50,6 +49,7 @@ class UserController {
         exit;
     }
 
+
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -67,18 +67,12 @@ class UserController {
                 exit;
             }
 
-            if ($this->user_model->emailExists($email)) {
-                $_SESSION['reg_error'] = "Email đã tồn tại. Vui lòng thử email khác.";
-                header("Location: index.php?act=login");
-                exit;
-            }
-
             // 2. Đăng ký
-            $ok = $this->user_model->create($name, $email, $password, $phone, $address);
+            $ok = $this->user_model->register($name, $email, $password, $phone, $address);
             if ($ok) {
                 $_SESSION['reg_success'] = "Đăng ký thành công! Bạn có thể đăng nhập ngay.";
             } else {
-                $_SESSION['reg_error'] = "Có lỗi. Vui lòng thử lại.";
+                $_SESSION['reg_error'] = "Email đã tồn tại hoặc có lỗi. Vui lòng thử lại.";
             }
             header("Location: index.php?act=login");
             exit;
