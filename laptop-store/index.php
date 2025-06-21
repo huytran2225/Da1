@@ -54,6 +54,12 @@ switch ($mod) {
         $controller->history();
         break;
 
+    case 'request_cancellation':
+        require_once 'controllers/OrderController.php';
+        $controller = new OrderController();
+        $controller->requestCancellation();
+        break;
+
     case 'register':
         require_once('Controllers/UserController.php');
         $c = new UserController();
