@@ -79,10 +79,19 @@ class AdminDonHang {
             'shipping' => 'Đang giao hàng',
             'completed' => 'Hoàn thành',
             'cancelled' => 'Đã hủy',
+            'cancellation_requested' => 'Yêu cầu hủy',
         ];
     }
 
     public function getAvailableStatuses($current_status) {
+        // Nếu có yêu cầu hủy, admin chỉ có thể đồng ý hoặc từ chối
+        if ($current_status === 'cancellation_requested') {
+            return [
+                'cancelled' => 'Đồng ý hủy',
+                'processing' => 'Từ chối hủy (Tiếp tục xử lý)',
+            ];
+        }
+
         $status_order = ['pending', 'processing', 'confirmed', 'shipping', 'completed'];
         $all_statuses = $this->getAllStatusList();
         $result = [];
@@ -93,8 +102,8 @@ class AdminDonHang {
             $key = $status_order[$i];
             $result[$key] = $all_statuses[$key];
         }
-        // Nếu chưa phải completed/cancelled thì luôn cho phép hủy
-        if ($current_status !== 'completed' && $current_status !== 'cancelled') {
+        // Nếu chưa phải shipping/completed/cancelled thì luôn cho phép hủy
+        if ($current_status !== 'shipping' && $current_status !== 'completed' && $current_status !== 'cancelled') {
             $result['cancelled'] = $all_statuses['cancelled'];
         }
         return $result;
@@ -138,7 +147,8 @@ class AdminDonHang {
             'processing' => 'badge-info',
             'shipping' => 'badge-primary',
             'completed' => 'badge-success',
-            'cancelled' => 'badge-danger'
+            'cancelled' => 'badge-danger',
+            'cancellation_requested' => 'badge-danger'
         ];
         return $classes[$status] ?? 'badge-secondary';
     }

@@ -49,7 +49,24 @@ class OrderModel {
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-     public function getProductImage($product_id) {
+    
+    public function getOrderByIdAndUser($order_id, $user_id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ?");
+        $stmt->bind_param("ii", $order_id, $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function requestCancellation($order_id)
+    {
+        $stmt = $this->conn->prepare("UPDATE orders SET status = 'cancellation_requested' WHERE id = ?");
+        $stmt->bind_param("i", $order_id);
+        return $stmt->execute();
+    }
+
+    public function getProductImage($product_id) {
         $stmt = $this->conn->prepare("SELECT image FROM products WHERE id = ?");
         $stmt->bind_param("i", $product_id);
         $stmt->execute();

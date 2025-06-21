@@ -65,12 +65,6 @@ include './views/layout/navbar.php'
                   </thead>
                   <tbody>
                     <?php foreach ($orders as $order):
-                      $statusText = [
-                        'pending' => '<span class="badge badge-warning">Chờ xử lý</span>',
-                        'processing' => '<span class="badge badge-info">Đang xử lý</span>',
-                        'completed' => '<span class="badge badge-success">Hoàn thành</span>',
-                        'cancelled' => '<span class="badge badge-danger">Đã hủy</span>'
-                      ];
                       $paymentStatusText = [
                         'unpaid' => '<span class="badge badge-warning">Chưa thanh toán</span>',
                         'paid' => '<span class="badge badge-success">Đã thanh toán</span>',
@@ -81,7 +75,11 @@ include './views/layout/navbar.php'
                         <td><?= htmlspecialchars($order['id']) ?></td>
                         <td><?= htmlspecialchars($order['customer_name']) ?></td>
                         <td><?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></td>
-                        <td><?= $statusText[$order['status']] ?? $order['status'] ?></td>
+                        <td>
+                            <span class="badge <?= $this->model->getStatusBadgeClass($order['status']) ?>">
+                                <?= $this->model->getAllStatusList()[$order['status']] ?? $order['status'] ?>
+                            </span>
+                        </td>
                         <td><?= $paymentStatusText[$order['payment_status']] ?? htmlspecialchars($order['payment_status']) ?></td>
                         <td><?= number_format($order['total_price'], 0, ',', '.') ?> đ</td>
                         <td>

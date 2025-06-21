@@ -169,7 +169,7 @@
                                             <?= date('H:i', strtotime($history['created_at'])) ?>
                                         </span>
                                         <h3 class="timeline-header">
-                                            Chuyển sang trạng thái: 
+                                            Chuyển sang trạng thái:
                                             <span class="badge <?= $this->model->getStatusBadgeClass($history['status']) ?>">
                                                 <?= $this->model->getAllStatusList()[$history['status']] ?? $history['status'] ?>
                                             </span>
